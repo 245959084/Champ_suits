@@ -1,15 +1,20 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
 
 # display some text
 st.title("Number Doubler")
 st.write("Enter a number and I'll double it for you.")
+df = pd.read_csv("champ.csv")
+df = df.dropna()
 
 # ask for input
-number = st.number_input("Enter a number", value=0)
+lane = st.selectbox(
+    "Choose the lane you want to play",
+    ["Top", "Jungle", "Mid", "ADC", "Support"]
+)
+filter_line = df[df['preferred_role'] == lane]
 
-# this is just standard Python
-doubled = number * 2
-
+champ_recommandation = ",".join(list(filter_line['champion']))
 # display the result
-st.write(f"{number} doubled is {doubled}.")
+st.write(f"Here are the recommandation for you: {champ_recommandation}.")
