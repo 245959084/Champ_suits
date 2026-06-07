@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 
 # display some text
-st.title("Number Doubler")
-st.write("Enter a number and I'll double it for you.")
+st.title("Champions Recommendation")
+st.write("We will generate a champions list based on your preference.")
 df = pd.read_csv("champ.csv")
 df = df.dropna()
 
@@ -34,17 +34,17 @@ role  = st.selectbox(
 filter_role = filter_lane[filter_lane['role'] == role]
 if filter_role.shape[0] == 0:
     st.error("No champion seems to fit your choice. Try different options or adjust previous selections.")
-elif lane == "Fighter":
+elif role == "Fighter":
     st.image("img/role/fighter.png", caption="You are capable of enduring and dealing certain damages.")
-elif lane == "Mage":
+elif role == "Mage":
     st.image("img/role/mage.png", caption="Magic and abilities are your strongest weapons.")
-elif lane == "Assassin":
+elif role == "Assassin":
     st.image("img/role/assassin.png", caption="Instant burst damage, but avoid direct fight.")
-elif lane == "Marksman":
+elif role == "Marksman":
     st.image("img/role/marksman.png", caption="Range attack, teammates will look for your back.")
-elif lane == "Support":
+elif role == "Support":
     st.image("img/role/support.png", caption="Distract enemies and protect your allies.")
-elif lane == "Tank":
+elif role == "Tank":
     st.image("img/role/tank.png", caption="Protect your teammates!")
 
 
@@ -56,11 +56,11 @@ difficulty  = st.selectbox(
 filter_diff = filter_role[filter_role['difficulty'] == difficulty]
 if filter_diff.shape[0] == 0:
     st.error("No champion seems to fit your choice. Try different options or adjust previous selections.")
-elif lane == "Easy":
+elif difficulty == "Easy":
     st.image("img/difficulty/easy.png", caption="Wise choice, these champions usually have stats.")
-elif lane == "Medium":
+elif difficulty == "Medium":
     st.image("img/difficulty/medium.png", caption="I see you are ready to be on the next level.")
-elif lane == "Hard":
+elif difficulty == "Hard":
     st.image("img/difficulty/hard.png", caption="Tough choice, these champions usually have high mobility and diffcult ability combination.")
 #st.write(filter_diff)
 
@@ -74,12 +74,12 @@ if filter_range.shape[0] == 0:
     st.error("No champion seems to fit your choice. Try different options or adjust previous selections.")
 else:
     champs = list(filter_range['champion'])
-    champ_recommandation = ", ".join(champs)
+    champ_recommendation = ", ".join(champs)
     top_three = champs[:3]
     cols = st.columns(len(top_three))
     for col, champion in zip(cols, champs):
         url = f"https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{champion}_0.jpg"
         with col:
             st.image(url, caption=champion)
-    st.write(f"Here are the recommandation for you: {champ_recommandation}.")
+    st.write(f"Here are the recommendation for you: {champ_recommendation}.")
 #st.write(filter_range)
