@@ -1,6 +1,15 @@
-def main():
-    print("Hello from champ-suits!")
+import streamlit as st
+import numpy as np
 
+# display some text
+st.title("Number Doubler")
+st.write("Enter a number and I'll double it for you.")
 
-if __name__ == "__main__":
-    main()
+# ask for input
+number = st.number_input("Enter a number", value=0)
+
+# this is just standard Python
+doubled = number * 2
+
+# display the result
+st.write(f"{number} doubled is {doubled}.")
