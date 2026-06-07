@@ -8,34 +8,78 @@ st.write("Enter a number and I'll double it for you.")
 df = pd.read_csv("champ.csv")
 df = df.dropna()
 
-# ask for input
+# Choosing line
 lane = st.selectbox(
     "Choose the lane you want to play",
     ["Top", "Jungle", "Mid", "ADC", "Support"]
 )
-filter_line = df[df['lane'] == lane]
-#st.image("tes.img")
+filter_lane = df[df['lane'] == lane]
+if lane == "Top":
+    st.image("img/lane/top.png", caption="Welcome to the top line!")
+elif lane == "Jungle":
+    st.image("img/lane/jungle.png", caption="Welcome to the jungle!")
+elif lane == "Mid":
+    st.image("img/lane/mid.png", caption="Welcome to the mid line!")
+elif lane == "ADC":
+    st.image("img/lane/bot.png", caption="Welcome to the bottom line, adc!")
+elif lane == "Support":
+    st.image("img/lane/bot.png", caption="Welcome to the bottom line, support!")
+#st.write(filter_lane)
 
-champ_recommandation = ",".join(list(filter_line['champion']))
-first_champ = filter_line['champion'].iloc[0]
-second_champ = filter_line['champion'].iloc[1]
-third_champ = filter_line['champion'].iloc[2]
+#choosing role
+role  = st.selectbox(
+    "Choose the role you are interested",
+    ["Fighter", "Mage", "Assassin", "Marksman", "Support", "Tank"]
+)
+filter_role = filter_lane[filter_lane['role'] == role]
+if filter_role.shape[0] == 0:
+    st.error("No champion seems to fit your choice. Try different options or adjust previous selections.")
+elif lane == "Fighter":
+    st.image("img/role/fighter.png", caption="You are capable of enduring and dealing certain damages.")
+elif lane == "Mage":
+    st.image("img/role/mage.png", caption="Magic and abilities are your strongest weapons.")
+elif lane == "Assassin":
+    st.image("img/role/assassin.png", caption="Instant burst damage, but avoid direct fight.")
+elif lane == "Marksman":
+    st.image("img/role/marksman.png", caption="Range attack, teammates will look for your back.")
+elif lane == "Support":
+    st.image("img/role/support.png", caption="Distract enemies and protect your allies.")
+elif lane == "Tank":
+    st.image("img/role/tank.png", caption="Protect your teammates!")
 
-url1 = f"https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{first_champ}_0.jpg"
-url2 = f"https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{second_champ}_0.jpg"
-url3 = f"https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{third_champ}_0.jpg"
-# st.image(url1, caption=first_champ)
-# st.image(url2, caption=second_champ)
-# st.image(url3, caption=third_champ)
-col1, col2, col3 = st.columns(3)
 
-with col1:
-    st.image(url1, caption=first_champ)
+#Choosing champion difficulty
+difficulty  = st.selectbox(
+    "Choose the difficulty to play your champion you will get",
+    ["Easy", "Medium", "Hard"]
+)
+filter_diff = filter_role[filter_role['difficulty'] == difficulty]
+if filter_diff.shape[0] == 0:
+    st.error("No champion seems to fit your choice. Try different options or adjust previous selections.")
+elif lane == "Easy":
+    st.image("img/difficulty/easy.png", caption="Wise choice, these champions usually have stats.")
+elif lane == "Medium":
+    st.image("img/difficulty/medium.png", caption="I see you are ready to be on the next level.")
+elif lane == "Hard":
+    st.image("img/difficulty/hard.png", caption="Tough choice, these champions usually have high mobility and diffcult ability combination.")
+#st.write(filter_diff)
 
-with col2:
-    st.image(url2, caption=second_champ)
-
-with col3:
-    st.image(url3, caption=third_champ)
-# display the result
-st.write(f"Here are the recommandation for you: {champ_recommandation}.")
+#Choosing prefer attack range
+range  = st.selectbox(
+    "Choose the attack range you want",
+    ["Short", "Medium", "Far"]
+)
+filter_range = filter_diff[filter_diff['attack_range'] == range]
+if filter_range.shape[0] == 0:
+    st.error("No champion seems to fit your choice. Try different options or adjust previous selections.")
+else:
+    champs = list(filter_range['champion'])
+    champ_recommandation = ", ".join(champs)
+    top_three = champs[:3]
+    cols = st.columns(len(top_three))
+    for col, champion in zip(cols, champs):
+        url = f"https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{champion}_0.jpg"
+        with col:
+            st.image(url, caption=champion)
+    st.write(f"Here are the recommandation for you: {champ_recommandation}.")
+#st.write(filter_range)
